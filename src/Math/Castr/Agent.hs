@@ -13,9 +13,10 @@ module Math.Castr.Agent where
 
 import Control.Applicative ((<$>), (<*>))
 import Data.Aeson
-import Data.Monoid (mappend)
+import Data.Monoid ((<>), mappend)
 import Data.Ord (comparing)
-import Data.Vector (Vector, empty, singleton)
+import Data.Vector
+import Prelude hiding (head, tail, init, filter)
 import Statistics.Distribution
 import Statistics.Distribution.Normal
 import System.Random.MWC
@@ -26,6 +27,9 @@ type Pool = Vector Agent
 -- |Agents have an attribute
 newtype Agent = Agent { attribute :: Attribute }
   deriving (Eq, Show)
+
+instance Ord Agent where
+  compare = comparing attribute
 
 -- |Attributes are numerical, with a genetic and environmental component
 data Attribute = Attribute { genPart :: Double
@@ -73,6 +77,14 @@ addToPool n h p = addToPool (n-1) h =<< addOne
   where
     addOne :: IO Pool
     addOne = mappend p . singleton <$> genAgent h
+
+-- |Sort a pool using QuickSort
+sortPool :: Pool -> Pool
+sortPool pool = lower <> (singleton anchor) <> upper
+  where
+    anchor = head pool
+    lower = sortPool . filter (<= anchor) $ tail pool
+    upper = sortPool . filter (> anchor) $ tail pool
 
 
 -- JSON interface
