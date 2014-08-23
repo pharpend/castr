@@ -16,11 +16,26 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
+library
+  default-language:    Haskell2010
+  hs-source-dirs:      src/
+  ghc-options: -Wall -O1
+  default-extensions:
+    OverloadedStrings
+  exposed-modules:
+    Math.Castr.Agent
+  build-depends:
+      aeson      >=0.7  && <0.9
+    , base       >=4    && <5
+    , bytestring >=0.10 && <0.11
+    , containers >=0.5  && <0.6
+    , mwc-random >=0.13 && <0.14
+    , statistics >=0.13 && <0.14
+    , text       >=1.1  && <1.2
+
 executable castr
   main-is:             Main.hs
-  -- other-modules:       
-  -- other-extensions:    
   build-depends:
       base >=4.7 && <4.8
-  -- hs-source-dirs:      
   default-language:    Haskell2010
+  ghc-options: -Wall -O1
