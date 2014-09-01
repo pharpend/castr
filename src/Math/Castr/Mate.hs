@@ -22,13 +22,13 @@ type Pair x = (x, x)
 type Parent = Agent
 type Child = Agent
 
-data Mating = Mating { parents  :: Pair Parent
-                     , children :: Child
+data Mating = Mating { parents :: Pair Parent
+                     , child   :: Child
                      }
   deriving (Eq, Show)
 
 instance Ord Mating where
-  compare = comparing children
+  compare = comparing child
   
 instance FromJSON Mating where
   parseJSON (Object v) = Mating
