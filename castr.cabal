@@ -21,6 +21,7 @@ library
     OverloadedStrings
   exposed-modules:
     Math.Castr.Agent
+    Math.Castr.Mate
   build-depends:
       aeson      >=0.7  && <0.9
     , base       >=4    && <5

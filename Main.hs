@@ -26,8 +26,8 @@ main = runArguments =<< getArgs
 -- doing it by hand
 help :: IO ()
 help = Bl.hPut stdout . mappend
- "Things you can do are listed. Unless otherwise noted, all output \n\
- \is in compressed JSON.\n" .
+  "Things you can do are listed. Unless otherwise noted, all output \n\
+  \is in compressed JSON.\n" .
   mconcat . map (mappend "\n\t") $
     [ "mkpool N H\tGenerate a pool with N agents, a heritability of H."
     , "splpool F GS\tSplit the pool read from F into groups of size GS."
