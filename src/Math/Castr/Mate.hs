@@ -14,9 +14,7 @@ module Math.Castr.Mate where
 import           Control.Applicative
 import           Data.Aeson
 import           Data.Ord
-import           Data.Vector
 import           Math.Castr.Agent
-import           Statistics.Distribution
 
 type Pair x = (x, x)
 type Parent = Agent
