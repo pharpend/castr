@@ -16,7 +16,7 @@ import Data.Aeson
 import Data.Monoid ((<>), mappend)
 import Data.Ord (comparing)
 import Data.Vector
-import Prelude hiding (head, tail, init, filter)
+import Prelude hiding (head, tail, init, last, filter, length, splitAt)
 import Statistics.Distribution
 import Statistics.Distribution.Normal
 import System.Random.MWC
@@ -80,12 +80,24 @@ addToPool n h p = addToPool (n-1) h =<< addOne
 
 -- |Sort a pool using QuickSort
 sortPool :: Pool -> Pool
-sortPool pool = lower <> (singleton anchor) <> upper
+sortPool pool
+  | pool == empty = empty
+  | otherwise = lower <> (singleton anchor) <> upper
   where
     anchor = head pool
     lower = sortPool . filter (<= anchor) $ tail pool
     upper = sortPool . filter (> anchor) $ tail pool
 
+-- |Split the pool into partitions of a certain size, sorts first
+splitPool :: Int -> Pool -> Vector Pool
+splitPool n pl = doTake n (sortPool pl)
+
+-- |Take N recursively from the pool
+doTake :: Int -> Pool -> Vector Pool
+doTake n pool
+  | length pool <= n = singleton pool
+  | otherwise = cons (fst splitted) (doTake n (snd splitted))
+      where splitted = splitAt n pool
 
 -- JSON interface
 instance FromJSON Attribute where
